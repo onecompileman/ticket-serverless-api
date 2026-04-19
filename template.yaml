@@ -60,6 +60,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -118,6 +120,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -176,6 +180,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -234,6 +240,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -292,6 +300,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -350,6 +360,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -408,6 +420,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -466,6 +480,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -524,6 +540,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -582,6 +600,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -640,6 +660,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -698,6 +720,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -756,6 +780,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -814,6 +840,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -872,6 +900,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -930,6 +960,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -988,6 +1020,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1046,6 +1080,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1104,6 +1140,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1162,6 +1200,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1220,6 +1260,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1278,6 +1320,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1336,6 +1380,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1394,6 +1440,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1452,6 +1500,8 @@ Resources:
           ParameterName: "Dev_FRONTEND_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_COGNITO_JWKS_URL"
+      - SSMParameterReadPolicy:
+          ParameterName: "Dev_S3_BUCKET_NAME"
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
