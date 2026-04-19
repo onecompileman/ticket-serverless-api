@@ -16,6 +16,7 @@ const SSM = {
   GMAIL_PASS: 'Dev_GMAIL_PASS',
   FRONTEND_URL: 'Dev_FRONTEND_URL',
   COGNITO_JWKS_URL: 'Dev_COGNITO_JWKS_URL',
+  S3_BUCKET_NAME: 'Dev_S3_BUCKET_NAME',
 };
 
 const METHOD_ALIASES = {
@@ -110,7 +111,7 @@ async function buildFunctionBlock(fileAbsPath) {
     `          GMAIL_PASS: !Sub "{{resolve:ssm:${SSM.GMAIL_PASS}}}"`,
     `          FRONTEND_URL: !Sub "{{resolve:ssm:${SSM.FRONTEND_URL}}}"`,
     `          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:${SSM.COGNITO_JWKS_URL}}}"`,
-    `          S3_BUCKET_NAME: !Ref MyBucket`,
+    `          S3_BUCKET_NAME: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
     `      Policies:`,
     `      - SSMParameterReadPolicy:`,
     `          ParameterName: "${SSM.RDS_PASSWORD}"`,
@@ -124,8 +125,10 @@ async function buildFunctionBlock(fileAbsPath) {
     `          ParameterName: "${SSM.FRONTEND_URL}"`,
     `      - SSMParameterReadPolicy:`,
     `          ParameterName: "${SSM.COGNITO_JWKS_URL}"`,
+    `      - SSMParameterReadPolicy:`,
+    `          ParameterName: "${SSM.S3_BUCKET_NAME}"`,
     `      - S3CrudPolicy:`,
-    `          BucketName: !Ref MyBucket`,
+    `          BucketName: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
     `      Architectures:`,
     `      - x86_64`,
     `      Events:`,

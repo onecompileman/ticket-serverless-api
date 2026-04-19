@@ -48,6 +48,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Sync Functions
+        run: npm run sync:handlers
+
       - name: SAM Build
         run: sam build --parallel --cached
 
