@@ -8,6 +8,97 @@ const functionsDir = path.join(root, 'src', 'functions');
 const START = '# BEGIN AUTO FUNCTIONS';
 const END = '# END AUTO FUNCTIONS';
 
+const API_THROTTLE_PARAMETERS = [
+  '  ApiThrottleRateLimit:',
+  '    Type: Number',
+  '    Default: 50',
+  '  ApiThrottleBurstLimit:',
+  '    Type: Number',
+  '    Default: 100',
+  '  WafRateLimitPer5Min:',
+  '    Type: Number',
+  '    Default: 1000',
+].join('\n');
+
+const API_METHOD_SETTINGS = [
+  '    MethodSettings:',
+  '      - HttpMethod: "*"',
+  '        ResourcePath: "/*"',
+  '        ThrottlingRateLimit: !Ref ApiThrottleRateLimit',
+  '        ThrottlingBurstLimit: !Ref ApiThrottleBurstLimit',
+].join('\n');
+
+const WAF_RESOURCES_BLOCK = [
+  '  ApiShieldWebAcl:',
+  '    Type: AWS::WAFv2::WebACL',
+  '    Properties:',
+  '      Name: !Sub "${AWS::StackName}-api-shield"',
+  '      Scope: REGIONAL',
+  '      DefaultAction:',
+  '        Allow: {}',
+  '      VisibilityConfig:',
+  '        CloudWatchMetricsEnabled: true',
+  '        MetricName: !Sub "${AWS::StackName}-api-waf"',
+  '        SampledRequestsEnabled: true',
+  '      Rules:',
+  '        - Name: AWS-AmazonIpReputationList',
+  '          Priority: 0',
+  '          Statement:',
+  '            ManagedRuleGroupStatement:',
+  '              VendorName: AWS',
+  '              Name: AWSManagedRulesAmazonIpReputationList',
+  '          OverrideAction:',
+  '            None: {}',
+  '          VisibilityConfig:',
+  '            CloudWatchMetricsEnabled: true',
+  '            MetricName: AWSAmazonIpReputationList',
+  '            SampledRequestsEnabled: true',
+  '        - Name: AWS-CommonRuleSet',
+  '          Priority: 1',
+  '          Statement:',
+  '            ManagedRuleGroupStatement:',
+  '              VendorName: AWS',
+  '              Name: AWSManagedRulesCommonRuleSet',
+  '          OverrideAction:',
+  '            None: {}',
+  '          VisibilityConfig:',
+  '            CloudWatchMetricsEnabled: true',
+  '            MetricName: AWSCommonRuleSet',
+  '            SampledRequestsEnabled: true',
+  '        - Name: AWS-KnownBadInputs',
+  '          Priority: 2',
+  '          Statement:',
+  '            ManagedRuleGroupStatement:',
+  '              VendorName: AWS',
+  '              Name: AWSManagedRulesKnownBadInputsRuleSet',
+  '          OverrideAction:',
+  '            None: {}',
+  '          VisibilityConfig:',
+  '            CloudWatchMetricsEnabled: true',
+  '            MetricName: AWSKnownBadInputs',
+  '            SampledRequestsEnabled: true',
+  '        - Name: RateLimitByIp',
+  '          Priority: 3',
+  '          Action:',
+  '            Block: {}',
+  '          Statement:',
+  '            RateBasedStatement:',
+  '              AggregateKeyType: IP',
+  '              Limit: !Ref WafRateLimitPer5Min',
+  '          VisibilityConfig:',
+  '            CloudWatchMetricsEnabled: true',
+  '            MetricName: RateLimitByIp',
+  '            SampledRequestsEnabled: true',
+  '',
+  '  ApiShieldWebAclAssociation:',
+  '    Type: AWS::WAFv2::WebACLAssociation',
+  '    DependsOn:',
+  '      - ServerlessRestApiProdStage',
+  '    Properties:',
+  '      ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"',
+  '      WebACLArn: !GetAtt ApiShieldWebAcl.Arn',
+].join('\n');
+
 // SSM parameter names — match what is in template.yaml
 const SSM = {
   RDS_HOST: 'Dev_RDS_Host',
@@ -209,6 +300,33 @@ function replaceManagedBlock(template, block, eol) {
   return `${head}${START}${eol}${block}${eol}  ${END}${tail}`;
 }
 
+function ensureApiThrottleParameters(template, eol) {
+  if (template.includes('ApiThrottleRateLimit:') && template.includes('WafRateLimitPer5Min:')) return template;
+
+  const bucketDefaultAnchor = /(^\s{2}Default:\s+ticket-storage-.*$)/m;
+  if (!bucketDefaultAnchor.test(template)) return template;
+
+  return template.replace(bucketDefaultAnchor, `$1${eol}${API_THROTTLE_PARAMETERS.split('\n').join(eol)}`);
+}
+
+function ensureApiMethodSettings(template, eol) {
+  if (template.includes('ThrottlingRateLimit: !Ref ApiThrottleRateLimit')) return template;
+
+  const binaryMediaAnchor = /(^\s{4}BinaryMediaTypes:\s*$)/m;
+  if (!binaryMediaAnchor.test(template)) return template;
+
+  return template.replace(binaryMediaAnchor, `${API_METHOD_SETTINGS.split('\n').join(eol)}${eol}$1`);
+}
+
+function ensureWafResources(template, eol) {
+  if (template.includes('ApiShieldWebAcl:') && template.includes('ApiShieldWebAclAssociation:')) return template;
+
+  const endMarker = `  ${END}`;
+  if (!template.includes(endMarker)) return template;
+
+  return template.replace(endMarker, `${endMarker}${eol}${eol}${WAF_RESOURCES_BLOCK.split('\n').join(eol)}`);
+}
+
 async function run() {
   const files = await walkTsFiles(functionsDir);
   files.sort((a, b) => a.localeCompare(b));
@@ -223,6 +341,9 @@ async function run() {
 
   template = ensureMarkers(template, eol);
   template = replaceManagedBlock(template, generated, eol);
+  template = ensureApiThrottleParameters(template, eol);
+  template = ensureApiMethodSettings(template, eol);
+  template = ensureWafResources(template, eol);
 
   await fs.writeFile(templatePath, template, 'utf8');
   console.log(`✓ template.yaml updated — ${files.length} function(s) synced.`);

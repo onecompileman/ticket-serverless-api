@@ -9,6 +9,15 @@ Parameters:
   MyBucket:
     Type: String
     Default: ticket-storage-843232831760-ap-southeast-2-an
+  ApiThrottleRateLimit:
+    Type: Number
+    Default: 50
+  ApiThrottleBurstLimit:
+    Type: Number
+    Default: 100
+  WafRateLimitPer5Min:
+    Type: Number
+    Default: 1000
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -24,6 +33,11 @@ Globals:
       AllowOrigin: "'*'"
       AllowHeaders: "'*'"
       AllowMethods: "'*'"
+    MethodSettings:
+      - HttpMethod: "*"
+        ResourcePath: "/*"
+        ThrottlingRateLimit: !Ref ApiThrottleRateLimit
+        ThrottlingBurstLimit: !Ref ApiThrottleBurstLimit
     BinaryMediaTypes:
       - multipart/form-data
 Resources:
@@ -1528,5 +1542,74 @@ Resources:
         EntryPoints:
         - src/functions/ticket/update-ticket-subtask-handler.ts
   # END AUTO FUNCTIONS
+
+  ApiShieldWebAcl:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: !Sub "${AWS::StackName}-api-shield"
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub "${AWS::StackName}-api-waf"
+        SampledRequestsEnabled: true
+      Rules:
+        - Name: AWS-AmazonIpReputationList
+          Priority: 0
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesAmazonIpReputationList
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSAmazonIpReputationList
+            SampledRequestsEnabled: true
+        - Name: AWS-CommonRuleSet
+          Priority: 1
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSCommonRuleSet
+            SampledRequestsEnabled: true
+        - Name: AWS-KnownBadInputs
+          Priority: 2
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSKnownBadInputs
+            SampledRequestsEnabled: true
+        - Name: RateLimitByIp
+          Priority: 3
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              AggregateKeyType: IP
+              Limit: !Ref WafRateLimitPer5Min
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: RateLimitByIp
+            SampledRequestsEnabled: true
+
+  ApiShieldWebAclAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    DependsOn:
+      - ServerlessRestApiProdStage
+    Properties:
+      ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"
+      WebACLArn: !GetAtt ApiShieldWebAcl.Arn
   
 
