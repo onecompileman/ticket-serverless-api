@@ -98,6 +98,11 @@
             Properties:
               Path: /auth/get-active-user
               Method: get
+          AuthGetActiveUserHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /auth/get-active-user
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -159,6 +164,11 @@
             Properties:
               Path: /ticket-board-column/add
               Method: post
+          TicketBoardColumnCreateTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/add
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -220,6 +230,11 @@
             Properties:
               Path: /ticket-board-column/delete/{columnId}
               Method: delete
+          TicketBoardColumnDeleteTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/delete/{columnId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -281,6 +296,11 @@
             Properties:
               Path: /ticket-board-column/update/{columnId}
               Method: put
+          TicketBoardColumnUpdateTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/update/{columnId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -342,6 +362,11 @@
             Properties:
               Path: /ticket-board/invite/accept/{code}
               Method: get
+          TicketBoardAcceptTicketBoardInviteHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite/accept/{code}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -403,6 +428,11 @@
             Properties:
               Path: /ticket-board/add
               Method: post
+          TicketBoardCreateTicketBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/add
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -464,6 +494,11 @@
             Properties:
               Path: /ticket-board/delete/{ticketId}
               Method: delete
+          TicketBoardDeleteTicketBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/delete/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -525,6 +560,11 @@
             Properties:
               Path: /ticket-board/get-all-shared
               Method: get
+          TicketBoardGetAllSharedTicketBoardsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all-shared
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -586,6 +626,11 @@
             Properties:
               Path: /ticket-board/get-all
               Method: get
+          TicketBoardGetAllTicketBoardsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -647,6 +692,11 @@
             Properties:
               Path: /ticket-board/get/{boardId}
               Method: get
+          TicketBoardGetTicketBoardByIdHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get/{boardId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -708,6 +758,11 @@
             Properties:
               Path: /ticket-board/get-users/{boardId}
               Method: get
+          TicketBoardGetUsersInBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-users/{boardId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -769,6 +824,11 @@
             Properties:
               Path: /ticket-board/invite
               Method: post
+          TicketBoardInviteTicketBoardEmailHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -830,6 +890,11 @@
             Properties:
               Path: /ticket/attachment/add/{ticketId}
               Method: post
+          TicketAddTicketAttachmentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/add/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -891,6 +956,11 @@
             Properties:
               Path: /ticket/comment/add/{ticketId}
               Method: post
+          TicketAddTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/add/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -952,6 +1022,11 @@
             Properties:
               Path: /ticket/subtask/add/{ticketId}
               Method: post
+          TicketAddTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/add/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1013,6 +1088,11 @@
             Properties:
               Path: /ticket/add
               Method: post
+          TicketCreateTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/add
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1074,6 +1154,11 @@
             Properties:
               Path: /ticket/attachment/delete/{attachmentId}
               Method: delete
+          TicketDeleteTicketAttachmentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/delete/{attachmentId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1135,6 +1220,11 @@
             Properties:
               Path: /ticket/comment/delete/{commentId}
               Method: delete
+          TicketDeleteTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/delete/{commentId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1196,6 +1286,11 @@
             Properties:
               Path: /ticket/delete/{ticketId}
               Method: delete
+          TicketDeleteTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/delete/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1257,6 +1352,11 @@
             Properties:
               Path: /ticket/subtask/delete/{subtaskId}
               Method: delete
+          TicketDeleteTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/delete/{subtaskId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1318,6 +1418,11 @@
             Properties:
               Path: /ticket/get-all/{boardId}
               Method: get
+          TicketGetAllTicketsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/get-all/{boardId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1379,6 +1484,11 @@
             Properties:
               Path: /ticket/get/{ticketId}
               Method: get
+          TicketGetTicketByIdHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/get/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1440,6 +1550,11 @@
             Properties:
               Path: /ticket/comment/update/{commentId}
               Method: put
+          TicketUpdateTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/update/{commentId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1501,6 +1616,11 @@
             Properties:
               Path: /ticket/update/{ticketId}
               Method: put
+          TicketUpdateTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/update/{ticketId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
@@ -1562,6 +1682,11 @@
             Properties:
               Path: /ticket/subtask/update/{subtaskId}
               Method: put
+          TicketUpdateTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/update/{subtaskId}
+              Method: options
       Metadata:
         BuildMethod: esbuild
         BuildProperties:
