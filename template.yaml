@@ -1,47 +1,47 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Description: >
-  ticket-serverless-api
+  AWSTemplateFormatVersion: '2010-09-09'
+  Transform: AWS::Serverless-2016-10-31
+  Description: >
+    ticket-serverless-api
 
-  Sample SAM Template for ticket-serverless-api
+    Sample SAM Template for ticket-serverless-api
 
-Parameters:
-  MyBucket:
-    Type: String
-    Default: ticket-storage-843232831760-ap-southeast-2-an
-  ApiThrottleRateLimit:
-    Type: Number
-    Default: 50
-  ApiThrottleBurstLimit:
-    Type: Number
-    Default: 100
-  WafRateLimitPer5Min:
-    Type: Number
-    Default: 1000
+  Parameters:
+    MyBucket:
+      Type: String
+      Default: ticket-storage-843232831760-ap-southeast-2-an
+    ApiThrottleRateLimit:
+      Type: Number
+      Default: 50
+    ApiThrottleBurstLimit:
+      Type: Number
+      Default: 100
+    WafRateLimitPer5Min:
+      Type: Number
+      Default: 1000
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-Globals:
-  Function:
-    Timeout: 30
-    MemorySize: 512
+  # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+  Globals:
+    Function:
+      Timeout: 30
+      MemorySize: 512
 
-    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
-    LoggingConfig:
-      LogFormat: JSON
-  Api:
-    Cors:
-      AllowOrigin: "'*'"
-      AllowHeaders: "'*'"
-      AllowMethods: "'*'"
-    MethodSettings:
-      - HttpMethod: "*"
-        ResourcePath: "/*"
-        ThrottlingRateLimit: !Ref ApiThrottleRateLimit
-        ThrottlingBurstLimit: !Ref ApiThrottleBurstLimit
-    BinaryMediaTypes:
-      - multipart/form-data
-Resources:
-  # BEGIN AUTO FUNCTIONS
+      # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+      LoggingConfig:
+        LogFormat: JSON
+    Api:
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+        AllowMethods: "'*'"
+      MethodSettings:
+        - HttpMethod: "*"
+          ResourcePath: "/*"
+          ThrottlingRateLimit: !Ref ApiThrottleRateLimit
+          ThrottlingBurstLimit: !Ref ApiThrottleBurstLimit
+      BinaryMediaTypes:
+        - multipart/form-data
+  Resources:
+    # BEGIN AUTO FUNCTIONS
   AuthGetActiveUserHandlerFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -76,6 +76,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -136,6 +142,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -196,6 +208,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -256,6 +274,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -316,6 +340,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -376,6 +406,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -436,6 +472,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -496,6 +538,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -556,6 +604,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -616,6 +670,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -676,6 +736,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -736,6 +802,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -796,6 +868,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -856,6 +934,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -916,6 +1000,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -976,6 +1066,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1036,6 +1132,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1096,6 +1198,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1156,6 +1264,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1216,6 +1330,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1276,6 +1396,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1336,6 +1462,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1396,6 +1528,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1456,6 +1594,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1516,6 +1660,12 @@ Resources:
           ParameterName: "Dev_COGNITO_JWKS_URL"
       - SSMParameterReadPolicy:
           ParameterName: "Dev_S3_BUCKET_NAME"
+      - Statement:
+          - Sid: CognitoAdminGetUserAccess
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminGetUser
+            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
       - S3CrudPolicy:
           BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
       Architectures:
@@ -1543,73 +1693,73 @@ Resources:
         - src/functions/ticket/update-ticket-subtask-handler.ts
   # END AUTO FUNCTIONS
 
-  ApiShieldWebAcl:
-    Type: AWS::WAFv2::WebACL
-    Properties:
-      Name: !Sub "${AWS::StackName}-api-shield"
-      Scope: REGIONAL
-      DefaultAction:
-        Allow: {}
-      VisibilityConfig:
-        CloudWatchMetricsEnabled: true
-        MetricName: !Sub "${AWS::StackName}-api-waf"
-        SampledRequestsEnabled: true
-      Rules:
-        - Name: AWS-AmazonIpReputationList
-          Priority: 0
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesAmazonIpReputationList
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSAmazonIpReputationList
-            SampledRequestsEnabled: true
-        - Name: AWS-CommonRuleSet
-          Priority: 1
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesCommonRuleSet
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSCommonRuleSet
-            SampledRequestsEnabled: true
-        - Name: AWS-KnownBadInputs
-          Priority: 2
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesKnownBadInputsRuleSet
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSKnownBadInputs
-            SampledRequestsEnabled: true
-        - Name: RateLimitByIp
-          Priority: 3
-          Action:
-            Block: {}
-          Statement:
-            RateBasedStatement:
-              AggregateKeyType: IP
-              Limit: !Ref WafRateLimitPer5Min
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: RateLimitByIp
-            SampledRequestsEnabled: true
+    ApiShieldWebAcl:
+      Type: AWS::WAFv2::WebACL
+      Properties:
+        Name: !Sub "${AWS::StackName}-api-shield"
+        Scope: REGIONAL
+        DefaultAction:
+          Allow: {}
+        VisibilityConfig:
+          CloudWatchMetricsEnabled: true
+          MetricName: !Sub "${AWS::StackName}-api-waf"
+          SampledRequestsEnabled: true
+        Rules:
+          - Name: AWS-AmazonIpReputationList
+            Priority: 0
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAmazonIpReputationList
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSAmazonIpReputationList
+              SampledRequestsEnabled: true
+          - Name: AWS-CommonRuleSet
+            Priority: 1
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesCommonRuleSet
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSCommonRuleSet
+              SampledRequestsEnabled: true
+          - Name: AWS-KnownBadInputs
+            Priority: 2
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesKnownBadInputsRuleSet
+            OverrideAction:
+              None: {}
+            VisibilityConfig:
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSKnownBadInputs
+              SampledRequestsEnabled: true
+          - Name: RateLimitByIp
+            Priority: 3
+            Action:
+              Block: {}
+            Statement:
+              RateBasedStatement:
+                AggregateKeyType: IP
+                Limit: !Ref WafRateLimitPer5Min
+            VisibilityConfig:
+              CloudWatchMetricsEnabled: true
+              MetricName: RateLimitByIp
+              SampledRequestsEnabled: true
 
-  ApiShieldWebAclAssociation:
-    Type: AWS::WAFv2::WebACLAssociation
-    DependsOn:
-      - ServerlessRestApiProdStage
-    Properties:
-      ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"
-      WebACLArn: !GetAtt ApiShieldWebAcl.Arn
-  
+    ApiShieldWebAclAssociation:
+      Type: AWS::WAFv2::WebACLAssociation
+      DependsOn:
+        - ServerlessRestApiProdStage
+      Properties:
+        ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"
+        WebACLArn: !GetAtt ApiShieldWebAcl.Arn
+    
 

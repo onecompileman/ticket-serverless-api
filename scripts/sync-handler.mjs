@@ -110,6 +110,8 @@ const SSM = {
   S3_BUCKET_NAME: 'Dev_S3_BUCKET_NAME',
 };
 
+const COGNITO_USER_POOL_ID = 'ap-southeast-2_ANIUcWB9u';
+
 const METHOD_ALIASES = {
   create: 'post',
   list:   'get',
@@ -218,6 +220,12 @@ async function buildFunctionBlock(fileAbsPath) {
     `          ParameterName: "${SSM.COGNITO_JWKS_URL}"`,
     `      - SSMParameterReadPolicy:`,
     `          ParameterName: "${SSM.S3_BUCKET_NAME}"`,
+    `      - Statement:`,
+    `          - Sid: CognitoAdminGetUserAccess`,
+    `            Effect: Allow`,
+    `            Action:`,
+    `              - cognito-idp:AdminGetUser`,
+    `            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/${COGNITO_USER_POOL_ID}`, 
     `      - S3CrudPolicy:`,
     `          BucketName: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
     `      Architectures:`,
