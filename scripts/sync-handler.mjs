@@ -109,6 +109,26 @@ const WAF_RESOURCES_BLOCK = [
   '    Properties:',
   '      ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"',
   '      WebACLArn: !GetAtt ApiShieldWebAcl.Arn',
+  '',
+  '  ApiDefault4xxGatewayResponse:',
+  '    Type: AWS::ApiGateway::GatewayResponse',
+  '    Properties:',
+  '      RestApiId: !Ref ServerlessRestApi',
+  '      ResponseType: DEFAULT_4XX',
+  '      ResponseParameters:',
+  '        gatewayresponse.header.Access-Control-Allow-Origin: "\'*\'"',
+  '        gatewayresponse.header.Access-Control-Allow-Headers: "\'*\'"',
+  '        gatewayresponse.header.Access-Control-Allow-Methods: "\'*\'"',
+  '',
+  '  ApiDefault5xxGatewayResponse:',
+  '    Type: AWS::ApiGateway::GatewayResponse',
+  '    Properties:',
+  '      RestApiId: !Ref ServerlessRestApi',
+  '      ResponseType: DEFAULT_5XX',
+  '      ResponseParameters:',
+  '        gatewayresponse.header.Access-Control-Allow-Origin: "\'*\'"',
+  '        gatewayresponse.header.Access-Control-Allow-Headers: "\'*\'"',
+  '        gatewayresponse.header.Access-Control-Allow-Methods: "\'*\'"',
 ].join('\n');
 
 // SSM parameter names — match what is in template.yaml
@@ -342,7 +362,14 @@ function ensureApiMethodSettings(template, eol) {
 }
 
 function ensureWafResources(template, eol) {
-  if (template.includes('ApiShieldWebAcl:') && template.includes('ApiShieldWebAclAssociation:')) return template;
+  if (
+    template.includes('ApiShieldWebAcl:') &&
+    template.includes('ApiShieldWebAclAssociation:') &&
+    template.includes('ApiDefault4xxGatewayResponse:') &&
+    template.includes('ApiDefault5xxGatewayResponse:')
+  ) {
+    return template;
+  }
 
   const endMarkerRegex = new RegExp(`(^[ \\t]*${escapeRegExp(END)}$)`, 'm');
   if (!endMarkerRegex.test(template)) return template;

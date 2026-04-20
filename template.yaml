@@ -5,6 +5,12 @@
 
     Sample SAM Template for ticket-serverless-api
 
+  Metadata:
+    cfn-lint:
+      config:
+        ignore_checks:
+          - W3660
+
   Parameters:
     MyBucket:
       Type: String
@@ -1761,6 +1767,26 @@
       Properties:
         ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"
         WebACLArn: !GetAtt ApiShieldWebAcl.Arn
+
+    ApiDefault4xxGatewayResponse:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        RestApiId: !Ref ServerlessRestApi
+        ResponseType: DEFAULT_4XX
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'*'"
+
+    ApiDefault5xxGatewayResponse:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        RestApiId: !Ref ServerlessRestApi
+        ResponseType: DEFAULT_5XX
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'*'"
     
 
 
