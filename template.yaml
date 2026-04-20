@@ -1,4 +1,4 @@
-  AWSTemplateFormatVersion: '2010-09-09'
+﻿  AWSTemplateFormatVersion: '2010-09-09'
   Transform: AWS::Serverless-2016-10-31
   Description: >
     ticket-serverless-api
@@ -42,1656 +42,1656 @@
         - multipart/form-data
   Resources:
     # BEGIN AUTO FUNCTIONS
-  AuthGetActiveUserHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/auth/get-active-user-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        AuthGetActiveUserHandler:
-          Type: Api
-          Properties:
-            Path: /auth/get-active-user
-            Method: get
-        AuthGetActiveUserHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /auth/get-active-user
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/auth/get-active-user-handler.ts
+    AuthGetActiveUserHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/auth/get-active-user-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          AuthGetActiveUserHandler:
+            Type: Api
+            Properties:
+              Path: /auth/get-active-user
+              Method: get
+          AuthGetActiveUserHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /auth/get-active-user
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/auth/get-active-user-handler.ts
 
-  TicketBoardColumnCreateTicketBoardColumnHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board-column/create-ticket-board-column-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardColumnCreateTicketBoardColumnHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/add
-            Method: post
-        TicketBoardColumnCreateTicketBoardColumnHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/add
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board-column/create-ticket-board-column-handler.ts
+    TicketBoardColumnCreateTicketBoardColumnHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board-column/create-ticket-board-column-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardColumnCreateTicketBoardColumnHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/add
+              Method: post
+          TicketBoardColumnCreateTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/add
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board-column/create-ticket-board-column-handler.ts
 
-  TicketBoardColumnDeleteTicketBoardColumnHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board-column/delete-ticket-board-column-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardColumnDeleteTicketBoardColumnHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/delete/{columnId}
-            Method: delete
-        TicketBoardColumnDeleteTicketBoardColumnHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/delete/{columnId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board-column/delete-ticket-board-column-handler.ts
+    TicketBoardColumnDeleteTicketBoardColumnHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board-column/delete-ticket-board-column-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardColumnDeleteTicketBoardColumnHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/delete/{columnId}
+              Method: delete
+          TicketBoardColumnDeleteTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/delete/{columnId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board-column/delete-ticket-board-column-handler.ts
 
-  TicketBoardColumnUpdateTicketBoardColumnHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board-column/update-ticket-board-column-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardColumnUpdateTicketBoardColumnHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/update/{columnId}
-            Method: put
-        TicketBoardColumnUpdateTicketBoardColumnHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board-column/update/{columnId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board-column/update-ticket-board-column-handler.ts
+    TicketBoardColumnUpdateTicketBoardColumnHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board-column/update-ticket-board-column-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardColumnUpdateTicketBoardColumnHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/update/{columnId}
+              Method: put
+          TicketBoardColumnUpdateTicketBoardColumnHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board-column/update/{columnId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board-column/update-ticket-board-column-handler.ts
 
-  TicketBoardAcceptTicketBoardInviteHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/accept-ticket-board-invite-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardAcceptTicketBoardInviteHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/invite/accept/{code}
-            Method: get
-        TicketBoardAcceptTicketBoardInviteHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/invite/accept/{code}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/accept-ticket-board-invite-handler.ts
+    TicketBoardAcceptTicketBoardInviteHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/accept-ticket-board-invite-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardAcceptTicketBoardInviteHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite/accept/{code}
+              Method: get
+          TicketBoardAcceptTicketBoardInviteHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite/accept/{code}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/accept-ticket-board-invite-handler.ts
 
-  TicketBoardCreateTicketBoardHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/create-ticket-board-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardCreateTicketBoardHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/add
-            Method: post
-        TicketBoardCreateTicketBoardHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/add
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/create-ticket-board-handler.ts
+    TicketBoardCreateTicketBoardHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/create-ticket-board-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardCreateTicketBoardHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/add
+              Method: post
+          TicketBoardCreateTicketBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/add
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/create-ticket-board-handler.ts
 
-  TicketBoardDeleteTicketBoardHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/delete-ticket-board-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardDeleteTicketBoardHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/delete/{ticketId}
-            Method: delete
-        TicketBoardDeleteTicketBoardHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/delete/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/delete-ticket-board-handler.ts
+    TicketBoardDeleteTicketBoardHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/delete-ticket-board-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardDeleteTicketBoardHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/delete/{ticketId}
+              Method: delete
+          TicketBoardDeleteTicketBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/delete/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/delete-ticket-board-handler.ts
 
-  TicketBoardGetAllSharedTicketBoardsHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/get-all-shared-ticket-boards-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardGetAllSharedTicketBoardsHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-all-shared
-            Method: get
-        TicketBoardGetAllSharedTicketBoardsHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-all-shared
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/get-all-shared-ticket-boards-handler.ts
+    TicketBoardGetAllSharedTicketBoardsHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/get-all-shared-ticket-boards-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardGetAllSharedTicketBoardsHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all-shared
+              Method: get
+          TicketBoardGetAllSharedTicketBoardsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all-shared
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/get-all-shared-ticket-boards-handler.ts
 
-  TicketBoardGetAllTicketBoardsHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/get-all-ticket-boards-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardGetAllTicketBoardsHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-all
-            Method: get
-        TicketBoardGetAllTicketBoardsHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-all
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/get-all-ticket-boards-handler.ts
+    TicketBoardGetAllTicketBoardsHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/get-all-ticket-boards-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardGetAllTicketBoardsHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all
+              Method: get
+          TicketBoardGetAllTicketBoardsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-all
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/get-all-ticket-boards-handler.ts
 
-  TicketBoardGetTicketBoardByIdHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/get-ticket-board-by-id-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardGetTicketBoardByIdHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get/{boardId}
-            Method: get
-        TicketBoardGetTicketBoardByIdHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get/{boardId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/get-ticket-board-by-id-handler.ts
+    TicketBoardGetTicketBoardByIdHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/get-ticket-board-by-id-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardGetTicketBoardByIdHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get/{boardId}
+              Method: get
+          TicketBoardGetTicketBoardByIdHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get/{boardId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/get-ticket-board-by-id-handler.ts
 
-  TicketBoardGetUsersInBoardHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/get-users-in-board-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardGetUsersInBoardHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-users/{boardId}
-            Method: get
-        TicketBoardGetUsersInBoardHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/get-users/{boardId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/get-users-in-board-handler.ts
+    TicketBoardGetUsersInBoardHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/get-users-in-board-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardGetUsersInBoardHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-users/{boardId}
+              Method: get
+          TicketBoardGetUsersInBoardHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/get-users/{boardId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/get-users-in-board-handler.ts
 
-  TicketBoardInviteTicketBoardEmailHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket-board/invite-ticket-board-email-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketBoardInviteTicketBoardEmailHandler:
-          Type: Api
-          Properties:
-            Path: /ticket-board/invite
-            Method: post
-        TicketBoardInviteTicketBoardEmailHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket-board/invite
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket-board/invite-ticket-board-email-handler.ts
+    TicketBoardInviteTicketBoardEmailHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket-board/invite-ticket-board-email-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketBoardInviteTicketBoardEmailHandler:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite
+              Method: post
+          TicketBoardInviteTicketBoardEmailHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket-board/invite
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket-board/invite-ticket-board-email-handler.ts
 
-  TicketAddTicketAttachmentHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/add-ticket-attachment-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketAddTicketAttachmentHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/attachment/add/{ticketId}
-            Method: post
-        TicketAddTicketAttachmentHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/attachment/add/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/add-ticket-attachment-handler.ts
+    TicketAddTicketAttachmentHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/add-ticket-attachment-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketAddTicketAttachmentHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/add/{ticketId}
+              Method: post
+          TicketAddTicketAttachmentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/add/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/add-ticket-attachment-handler.ts
 
-  TicketAddTicketCommentHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/add-ticket-comment-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketAddTicketCommentHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/add/{ticketId}
-            Method: post
-        TicketAddTicketCommentHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/add/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/add-ticket-comment-handler.ts
+    TicketAddTicketCommentHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/add-ticket-comment-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketAddTicketCommentHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/add/{ticketId}
+              Method: post
+          TicketAddTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/add/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/add-ticket-comment-handler.ts
 
-  TicketAddTicketSubtaskHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/add-ticket-subtask-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketAddTicketSubtaskHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/add/{ticketId}
-            Method: post
-        TicketAddTicketSubtaskHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/add/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/add-ticket-subtask-handler.ts
+    TicketAddTicketSubtaskHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/add-ticket-subtask-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketAddTicketSubtaskHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/add/{ticketId}
+              Method: post
+          TicketAddTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/add/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/add-ticket-subtask-handler.ts
 
-  TicketCreateTicketHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/create-ticket-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketCreateTicketHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/add
-            Method: post
-        TicketCreateTicketHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/add
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/create-ticket-handler.ts
+    TicketCreateTicketHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/create-ticket-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketCreateTicketHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/add
+              Method: post
+          TicketCreateTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/add
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/create-ticket-handler.ts
 
-  TicketDeleteTicketAttachmentHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/delete-ticket-attachment-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketDeleteTicketAttachmentHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/attachment/delete/{attachmentId}
-            Method: delete
-        TicketDeleteTicketAttachmentHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/attachment/delete/{attachmentId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/delete-ticket-attachment-handler.ts
+    TicketDeleteTicketAttachmentHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/delete-ticket-attachment-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketDeleteTicketAttachmentHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/delete/{attachmentId}
+              Method: delete
+          TicketDeleteTicketAttachmentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/attachment/delete/{attachmentId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/delete-ticket-attachment-handler.ts
 
-  TicketDeleteTicketCommentHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/delete-ticket-comment-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketDeleteTicketCommentHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/delete/{commentId}
-            Method: delete
-        TicketDeleteTicketCommentHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/delete/{commentId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/delete-ticket-comment-handler.ts
+    TicketDeleteTicketCommentHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/delete-ticket-comment-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketDeleteTicketCommentHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/delete/{commentId}
+              Method: delete
+          TicketDeleteTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/delete/{commentId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/delete-ticket-comment-handler.ts
 
-  TicketDeleteTicketHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/delete-ticket-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketDeleteTicketHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/delete/{ticketId}
-            Method: delete
-        TicketDeleteTicketHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/delete/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/delete-ticket-handler.ts
+    TicketDeleteTicketHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/delete-ticket-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketDeleteTicketHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/delete/{ticketId}
+              Method: delete
+          TicketDeleteTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/delete/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/delete-ticket-handler.ts
 
-  TicketDeleteTicketSubtaskHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/delete-ticket-subtask-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketDeleteTicketSubtaskHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/delete/{subtaskId}
-            Method: delete
-        TicketDeleteTicketSubtaskHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/delete/{subtaskId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/delete-ticket-subtask-handler.ts
+    TicketDeleteTicketSubtaskHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/delete-ticket-subtask-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketDeleteTicketSubtaskHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/delete/{subtaskId}
+              Method: delete
+          TicketDeleteTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/delete/{subtaskId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/delete-ticket-subtask-handler.ts
 
-  TicketGetAllTicketsHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/get-all-tickets-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketGetAllTicketsHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/get-all/{boardId}
-            Method: get
-        TicketGetAllTicketsHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/get-all/{boardId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/get-all-tickets-handler.ts
+    TicketGetAllTicketsHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/get-all-tickets-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketGetAllTicketsHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/get-all/{boardId}
+              Method: get
+          TicketGetAllTicketsHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/get-all/{boardId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/get-all-tickets-handler.ts
 
-  TicketGetTicketByIdHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/get-ticket-by-id-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketGetTicketByIdHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/get/{ticketId}
-            Method: get
-        TicketGetTicketByIdHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/get/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/get-ticket-by-id-handler.ts
+    TicketGetTicketByIdHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/get-ticket-by-id-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketGetTicketByIdHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/get/{ticketId}
+              Method: get
+          TicketGetTicketByIdHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/get/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/get-ticket-by-id-handler.ts
 
-  TicketUpdateTicketCommentHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/update-ticket-comment-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketUpdateTicketCommentHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/update/{commentId}
-            Method: put
-        TicketUpdateTicketCommentHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/comment/update/{commentId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/update-ticket-comment-handler.ts
+    TicketUpdateTicketCommentHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/update-ticket-comment-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketUpdateTicketCommentHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/update/{commentId}
+              Method: put
+          TicketUpdateTicketCommentHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/comment/update/{commentId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/update-ticket-comment-handler.ts
 
-  TicketUpdateTicketHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/update-ticket-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketUpdateTicketHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/update/{ticketId}
-            Method: put
-        TicketUpdateTicketHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/update/{ticketId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/update-ticket-handler.ts
+    TicketUpdateTicketHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/update-ticket-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketUpdateTicketHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/update/{ticketId}
+              Method: put
+          TicketUpdateTicketHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/update/{ticketId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/update-ticket-handler.ts
 
-  TicketUpdateTicketSubtaskHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./
-      Handler: src/functions/ticket/update-ticket-subtask-handler.lambdaHandler
-      Runtime: nodejs20.x
-      Environment:
-        Variables:
-          RDS_TYPE: "postgres"
-          RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
-          RDS_PORT: "5432"
-          RDS_DB_NAME: "postgres"
-          RDS_USERNAME: "postgres"
-          RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
-          GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
-          GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
-          FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
-          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
-          S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Policies:
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Password"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_RDS_Host"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_USER"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_GMAIL_PASS"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_FRONTEND_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_COGNITO_JWKS_URL"
-      - SSMParameterReadPolicy:
-          ParameterName: "Dev_S3_BUCKET_NAME"
-      - Statement:
-          - Sid: CognitoAdminGetUserAccess
-            Effect: Allow
-            Action:
-              - cognito-idp:AdminGetUser
-            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
-      - S3CrudPolicy:
-          BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
-      Architectures:
-      - x86_64
-      Events:
-        TicketUpdateTicketSubtaskHandler:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/update/{subtaskId}
-            Method: put
-        TicketUpdateTicketSubtaskHandlerOptions:
-          Type: Api
-          Properties:
-            Path: /ticket/subtask/update/{subtaskId}
-            Method: options
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: es2020
-        Sourcemap: true
-        Loader:
-          - .html=file
-        EntryPoints:
-        - src/functions/ticket/update-ticket-subtask-handler.ts
-  # END AUTO FUNCTIONS
+    TicketUpdateTicketSubtaskHandlerFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        CodeUri: ./
+        Handler: src/functions/ticket/update-ticket-subtask-handler.lambdaHandler
+        Runtime: nodejs20.x
+        Environment:
+          Variables:
+            RDS_TYPE: "postgres"
+            RDS_HOST: !Sub "{{resolve:ssm:Dev_RDS_Host}}"
+            RDS_PORT: "5432"
+            RDS_DB_NAME: "postgres"
+            RDS_USERNAME: "postgres"
+            RDS_PASSWORD: !Sub "{{resolve:ssm:Dev_RDS_Password}}"
+            GMAIL_USER: !Sub "{{resolve:ssm:Dev_GMAIL_USER}}"
+            GMAIL_PASS: !Sub "{{resolve:ssm:Dev_GMAIL_PASS}}"
+            FRONTEND_URL: !Sub "{{resolve:ssm:Dev_FRONTEND_URL}}"
+            COGNITO_JWKS_URL: !Sub "{{resolve:ssm:Dev_COGNITO_JWKS_URL}}"
+            S3_BUCKET_NAME: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Password"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_RDS_Host"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_USER"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_GMAIL_PASS"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_FRONTEND_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_COGNITO_JWKS_URL"
+        - SSMParameterReadPolicy:
+            ParameterName: "Dev_S3_BUCKET_NAME"
+        - Statement:
+            - Sid: CognitoAdminGetUserAccess
+              Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/ap-southeast-2_ANIUcWB9u
+        - S3CrudPolicy:
+            BucketName: !Sub "{{resolve:ssm:Dev_S3_BUCKET_NAME}}"
+        Architectures:
+        - x86_64
+        Events:
+          TicketUpdateTicketSubtaskHandler:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/update/{subtaskId}
+              Method: put
+          TicketUpdateTicketSubtaskHandlerOptions:
+            Type: Api
+            Properties:
+              Path: /ticket/subtask/update/{subtaskId}
+              Method: options
+      Metadata:
+        BuildMethod: esbuild
+        BuildProperties:
+          Minify: true
+          Target: es2020
+          Sourcemap: true
+          Loader:
+            - .html=file
+          EntryPoints:
+          - src/functions/ticket/update-ticket-subtask-handler.ts
+    # END AUTO FUNCTIONS
 
     ApiShieldWebAcl:
       Type: AWS::WAFv2::WebACL
@@ -1762,4 +1762,5 @@
         ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${ServerlessRestApi}/stages/Prod"
         WebACLArn: !GetAtt ApiShieldWebAcl.Arn
     
+
 

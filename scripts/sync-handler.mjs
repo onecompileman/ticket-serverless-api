@@ -8,6 +8,18 @@ const functionsDir = path.join(root, 'src', 'functions');
 const START = '# BEGIN AUTO FUNCTIONS';
 const END = '# END AUTO FUNCTIONS';
 
+function indentBlock(block, spaces) {
+  const prefix = ' '.repeat(spaces);
+  return block
+    .split('\n')
+    .map((line) => (line.length ? `${prefix}${line}` : line))
+    .join('\n');
+}
+
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const API_THROTTLE_PARAMETERS = [
   '  ApiThrottleRateLimit:',
   '    Type: Number',
@@ -185,7 +197,7 @@ async function buildFunctionBlock(fileAbsPath) {
     ? explicitMethod
     : derivedMethod;
 
-  return [
+  const block = [
     `  ${logicalId}:`,
     `    Type: AWS::Serverless::Function`,
     `    Properties:`,
@@ -252,6 +264,9 @@ async function buildFunctionBlock(fileAbsPath) {
     `        EntryPoints:`,
     `        - ${rel}`,
   ].join('\n');
+
+  // Resources children must be indented by 4 spaces under "Resources:".
+  return indentBlock(block, 2);
 }
 
 async function walkTsFiles(dir) {
@@ -291,21 +306,21 @@ function ensureMarkers(template, eol) {
 
   return template.replace(
     'Resources:',
-    [`Resources:`, `  ${START}`, `  ${END}`].join(eol),
+    [`Resources:`, `    ${START}`, `    ${END}`].join(eol),
   );
 }
 
 function replaceManagedBlock(template, block, eol) {
-  const startIdx = template.indexOf(START);
-  const endIdx = template.indexOf(END);
-  if (startIdx === -1 || endIdx === -1 || endIdx < startIdx) {
+  const managedBlockRegex = new RegExp(
+    `(^[ \\t]*${escapeRegExp(START)}\\r?\\n)([\\s\\S]*?)(^[ \\t]*${escapeRegExp(END)}$)`,
+    'm',
+  );
+
+  if (!managedBlockRegex.test(template)) {
     throw new Error('Managed markers not found or invalid');
   }
 
-  const head = template.slice(0, startIdx);
-  const tail = template.slice(endIdx + END.length);
-
-  return `${head}${START}${eol}${block}${eol}  ${END}${tail}`;
+  return template.replace(managedBlockRegex, `$1${block}${eol}$3`);
 }
 
 function ensureApiThrottleParameters(template, eol) {
@@ -329,10 +344,10 @@ function ensureApiMethodSettings(template, eol) {
 function ensureWafResources(template, eol) {
   if (template.includes('ApiShieldWebAcl:') && template.includes('ApiShieldWebAclAssociation:')) return template;
 
-  const endMarker = `  ${END}`;
-  if (!template.includes(endMarker)) return template;
+  const endMarkerRegex = new RegExp(`(^[ \\t]*${escapeRegExp(END)}$)`, 'm');
+  if (!endMarkerRegex.test(template)) return template;
 
-  return template.replace(endMarker, `${endMarker}${eol}${eol}${WAF_RESOURCES_BLOCK.split('\n').join(eol)}`);
+  return template.replace(endMarkerRegex, `$1${eol}${eol}${indentBlock(WAF_RESOURCES_BLOCK, 2).split('\n').join(eol)}`);
 }
 
 async function run() {
@@ -342,7 +357,7 @@ async function run() {
   const blocks = await Promise.all(files.map(buildFunctionBlock));
   const generated = blocks.length
     ? blocks.join('\n\n')
-    : '  # No handlers found in src/functions';
+    : '    # No handlers found in src/functions';
 
   let template = await fs.readFile(templatePath, 'utf8');
   const eol = template.includes('\r\n') ? '\r\n' : '\n';
