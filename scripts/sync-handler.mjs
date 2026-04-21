@@ -144,6 +144,17 @@ const SSM = {
 
 const COGNITO_USER_POOL_ID = 'ap-southeast-2_ANIUcWB9u';
 
+const SPECIAL_FUNCTION_CONFIG = {
+  'src/functions/import/start-board-json-import-handler.ts': {
+    extraEnvironment: [
+      `      Environment:`,
+      `        Variables:`,
+      `          BOARD_JSON_IMPORT_STATE_MACHINE_ARN: !GetAtt BoardJsonImportStateMachine.Arn`,
+    ],
+    policiesAlias: '*ImportStartFunctionPolicies',
+  },
+};
+
 const METHOD_ALIASES = {
   create: 'post',
   list:   'get',
@@ -204,6 +215,7 @@ async function buildFunctionBlock(fileAbsPath) {
   const withoutExt = rel.replace(/\.ts$/, '');
   const relToFunctions = toPosix(path.relative(path.join(root, 'src', 'functions'), fileAbsPath));
   const logicalId = `${toPascalCase(relToFunctions.replace(/\.ts$/, ''))}Function`;
+  const specialConfig = SPECIAL_FUNCTION_CONFIG[rel] ?? {};
 
   const { method: derivedMethod, eventName, httpPath: derivedHttpPath } = deriveEvent(fileAbsPath);
 
@@ -235,51 +247,17 @@ async function buildFunctionBlock(fileAbsPath) {
         `            Method: options`,
       ];
 
+  const environmentBlock = specialConfig.extraEnvironment ?? [];
+  const policiesAlias = specialConfig.policiesAlias ?? '*CommonFunctionPolicies';
+
   const block = [
     `  ${logicalId}:`,
     `    Type: AWS::Serverless::Function`,
     `    Properties:`,
     `      CodeUri: ./`,
     `      Handler: ${withoutExt}.lambdaHandler`,
-    `      Runtime: nodejs20.x`,
-    `      Environment:`,
-    `        Variables:`,
-    `          RDS_TYPE: "postgres"`,
-    `          RDS_HOST: !Sub "{{resolve:ssm:${SSM.RDS_HOST}}}"`,
-    `          RDS_PORT: "5432"`,
-    `          RDS_DB_NAME: "postgres"`,
-    `          RDS_USERNAME: "postgres"`,
-    `          RDS_PASSWORD: !Sub "{{resolve:ssm:${SSM.RDS_PASSWORD}}}"`,
-    `          GMAIL_USER: !Sub "{{resolve:ssm:${SSM.GMAIL_USER}}}"`,
-    `          GMAIL_PASS: !Sub "{{resolve:ssm:${SSM.GMAIL_PASS}}}"`,
-    `          FRONTEND_URL: !Sub "{{resolve:ssm:${SSM.FRONTEND_URL}}}"`,
-    `          COGNITO_JWKS_URL: !Sub "{{resolve:ssm:${SSM.COGNITO_JWKS_URL}}}"`,
-    `          S3_BUCKET_NAME: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
-    `      Policies:`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.RDS_PASSWORD}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.RDS_HOST}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.GMAIL_USER}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.GMAIL_PASS}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.FRONTEND_URL}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.COGNITO_JWKS_URL}"`,
-    `      - SSMParameterReadPolicy:`,
-    `          ParameterName: "${SSM.S3_BUCKET_NAME}"`,
-    `      - Statement:`,
-    `          - Sid: CognitoAdminGetUserAccess`,
-    `            Effect: Allow`,
-    `            Action:`,
-    `              - cognito-idp:AdminGetUser`,
-    `            Resource: arn:aws:cognito-idp:ap-southeast-2:843232831760:userpool/${COGNITO_USER_POOL_ID}`, 
-    `      - S3CrudPolicy:`,
-    `          BucketName: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
-    `      Architectures:`,
-    `      - x86_64`,
+    ...environmentBlock,
+    `      Policies: ${policiesAlias}`,
     ...eventsBlock,
     `    Metadata:`,
     `      BuildMethod: esbuild`,
