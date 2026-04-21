@@ -5,9 +5,13 @@ import { getClassProperties } from '../../libs/utils/get-class-properties';
 import { access, readFile } from 'fs/promises';
 import path from 'path';
 import boardInvitationTemplateAssetPath from '../../email-templates/board-invitation-template.html';
+import boardCreatedTemplateAssetPath from '../../email-templates/board-created-template.html';
+import boardCreateFailedTemplateAssetPath from '../../email-templates/board-create-failed-template.html';
 
 const TEMPLATE_ASSET_PATHS: Record<EmailTemplate, string> = {
-    [EmailTemplate.BOARD_INVITATION]: boardInvitationTemplateAssetPath
+    [EmailTemplate.BOARD_INVITATION]: boardInvitationTemplateAssetPath,
+    [EmailTemplate.BOARD_CREATED]: boardCreatedTemplateAssetPath,
+    [EmailTemplate.BOARD_CREATE_FAILED]: boardCreateFailedTemplateAssetPath,
 };
 
 export class EmailTemplateService {

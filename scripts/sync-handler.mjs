@@ -211,11 +211,29 @@ async function buildFunctionBlock(fileAbsPath) {
   const fileContent = await fs.readFile(fileAbsPath, 'utf8');
   const pathMatch = fileContent.match(/const\s+(?:lambdaPath|lamdbaPath)\s*=\s*['"`]([^'"`]+)['"`]/);
   const methodMatch = fileContent.match(/const\s+(?:lambdaMethod|lamdbaMethod)\s*=\s*['"`]([^'"`]+)['"`]/i);
+  const internalMatch = fileContent.match(/const\s+lambdaInternal\s*=\s*true\s*;/i);
   const httpPath = pathMatch ? pathMatch[1] : derivedHttpPath;
   const explicitMethod = methodMatch ? methodMatch[1].toLowerCase() : null;
   const method = explicitMethod && HTTP_VERBS.has(explicitMethod)
     ? explicitMethod
     : derivedMethod;
+  const isInternal = Boolean(internalMatch);
+
+  const eventsBlock = isInternal
+    ? []
+    : [
+        `      Events:`,
+        `        ${eventName}:`,
+        `          Type: Api`,
+        `          Properties:`,
+        `            Path: ${httpPath}`,
+        `            Method: ${method}`,
+        `        ${eventName}Options:`,
+        `          Type: Api`,
+        `          Properties:`,
+        `            Path: ${httpPath}`,
+        `            Method: options`,
+      ];
 
   const block = [
     `  ${logicalId}:`,
@@ -262,17 +280,7 @@ async function buildFunctionBlock(fileAbsPath) {
     `          BucketName: !Sub "{{resolve:ssm:${SSM.S3_BUCKET_NAME}}}"`,
     `      Architectures:`,
     `      - x86_64`,
-    `      Events:`,
-    `        ${eventName}:`,
-    `          Type: Api`,
-    `          Properties:`,
-    `            Path: ${httpPath}`,
-    `            Method: ${method}`,
-    `        ${eventName}Options:`,
-    `          Type: Api`,
-    `          Properties:`,
-    `            Path: ${httpPath}`,
-    `            Method: options`,
+    ...eventsBlock,
     `    Metadata:`,
     `      BuildMethod: esbuild`,
     `      BuildProperties:`,

@@ -67,6 +67,24 @@ export class TicketBoardService extends BaseDatabaseService<TicketBoard> {
         return Boolean(boardUser);
     }
 
+    async updateTicketBoard(
+        id: number,
+        payload: Partial<Pick<TicketBoard, 'board_name' | 'board_color' | 'board_description'>>,
+    ): Promise<TicketBoard | null> {
+        const ticketBoardRepository = await this.getRepositoryAsync();
+        const ticketBoard = await ticketBoardRepository.findOne({
+            where: { id },
+            relations: ['created_by'],
+        });
+
+        if (!ticketBoard) {
+            return null;
+        }
+
+        ticketBoardRepository.merge(ticketBoard, payload);
+        return ticketBoardRepository.save(ticketBoard);
+    }
+
     async deleteTicketBoardById(id: number): Promise<void> {
         const ticketBoardRepository = await this.getRepositoryAsync();
         await ticketBoardRepository.delete(id);
